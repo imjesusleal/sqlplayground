@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+
+        <p>Hay una tabla creada ya en la base de datos llamada "user" que posee dos columnas -- 
+        id INT, name VARCHAR(25).</p>
+        <p>Inserta algun valor haciendo "insert into user(id, name) values(n, m)". Ejecuta cualquier otra consulta que quieras.</p>
+        <textarea name="" placeholder="create your query" id="input" style="width: 150px; height:150px"></textarea>
+        <button id="button" name="button">Click Me</button>
+        <div id="output" >
+            <p id="outputText"></p>
+        </div>
+
+        <script src="./wasm_exec.js"></script>
+        <script src="go.js"></script>
+        <script src="./query.js"></script>
+</body>
+</html>
+
