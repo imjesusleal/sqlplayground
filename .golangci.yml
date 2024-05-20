@@ -1,0 +1,18 @@
+run:
+  deadline: 5m
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosec
+    - goconst
+    - gocritic
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - stylecheck
+    - unconvert
+    - unused
+  fast: false
