@@ -1,0 +1,12 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./static/*.{html,js}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: ["dark", "cupcake", "cyberpunk"],
+  }
+}
+

@@ -2,12 +2,12 @@
 
 APP_NAME = sql-playground
 WASM_TARGET = ./static/main.wasm
-WASM_OPT = binaryen-version_117-x86_64-linux.tar.gz 
+WASM_OPT = binaryen-version_117-x86_64-linux.tar.gz
 
 #Rules
 
 .PHONY: build-front
-build-front: format-deps build-wasm opt-wasm 
+build-front: format-deps build-wasm tailwind opt-wasm serve 
 
 .PHONY: lint-deps
 lint-deps:
@@ -36,3 +36,10 @@ build-wasm : ./static/main.go
 
 serve : 
 	go run ./src
+
+tailwind:
+	@command -v npx tailwindcss >/dev/null 2>&1 || ( \
+		npm install -D tailwindcss; \
+		npx tailwind init; \
+	)
+	npx tailwindcss -i ./static/input.css -o ./static/output.css 

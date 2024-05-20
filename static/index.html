@@ -1,20 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="cyberpunk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="./output.css">
 </head>
 <body>
 
-        <p>Hay una tabla creada ya en la base de datos llamada "user" que posee dos columnas -- 
-        id INT, name VARCHAR(25).</p>
-        <p>Inserta algun valor haciendo "insert into user(id, name) values(n, m)". Ejecuta cualquier otra consulta que quieras.</p>
-        <textarea name="" placeholder="create your query" id="input" style="width: 150px; height:150px"></textarea>
-        <button id="button" name="button">Click Me</button>
-        <div id="output" >
-            <p id="outputText"></p>
+    <header>
+        <div class="hero min-h-screen" style="background-image: url(sql-hero.jpg);">
+            <div class="hero-overlay bg-opacity-80"></div>
+            <div class="hero-content text-center text-neutral-content">
+                <div class="max-w-md">
+                    <h1 class="mb-5 text-5xl font-bold text-black">SQL PLAYGROUND</h1>
+                    <p class="mb-5 text-black">Una implementación del runtime de sqlite3 en WASM (WebAssembly) para que practiques tus conocimientos sobre bases de datos relacionales in browser.</p>
+                    <button class="btn btn-primary">Empieza ya!</button>
+                </div>
+            </div>
+        </div>   
+    </header>
+    <main>
+        <div class="grid place-items-center">
+            <p>Hay una tabla creada ya en la base de datos llamada "user" que posee dos columnas -- 
+            id INT, name VARCHAR(25).</p>
+            <p>Inserta algun valor haciendo "insert into user(id, name) values(n, m)". Ejecuta cualquier otra consulta que quieras.</p>
         </div>
+
+        <div class="grid place-items-center py-8 gap-4">
+            <textarea class="textarea textarea-success" placeholder="create your query" id="input" style="width: 650px; height:150px; padding-bottom: 4px;"></textarea>
+            <button class="btn" id="button">Click Me</button>
+            <div id="output">
+                <p id="outputText"></p>
+            </div>
+        </div>
+    </main>
+            
 
         <script src="./wasm_exec.js"></script>
         <script src="go.js"></script>
