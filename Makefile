@@ -37,9 +37,9 @@ build-wasm : ./static/main.go
 serve : 
 	go run ./src
 
-tailwind:
-	@command -v npx tailwindcss >/dev/null 2>&1 || ( \
-		npm install -D tailwindcss; \
-		npx tailwind init; \
+front-deps:
+	@command -v npm -v >/dev/null 2>&1 || ( \
+		curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+		apt-get install -y nodejs; \
 	)
-	npx tailwindcss -i ./static/input.css -o ./static/output.css 
+	npm install . 
