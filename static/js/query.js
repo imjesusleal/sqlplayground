@@ -13,7 +13,6 @@ function putOutput(data) {
         txt.innerText = undefined
     } else {
         txt.innerText = data
-        txt.style.visibility = "visible"
     }     
 } 
 

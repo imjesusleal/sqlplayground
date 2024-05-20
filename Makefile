@@ -45,4 +45,4 @@ front-deps:
 	npm install .
 
 tailwind:
-	npx tailwind -i ./static/input.css -o ./static/output.css --watch 
+	npx tailwind -i ./static/styles/input.css -o ./static/styles/output.css --watch 

@@ -1346,34 +1346,6 @@ html {
   visibility: visible;
 }
 
-.absolute {
-  position: absolute;
-}
-
-.relative {
-  position: relative;
-}
-
-.bottom-0 {
-  bottom: 0px;
-}
-
-.left-0 {
-  left: 0px;
-}
-
-.right-0 {
-  right: 0px;
-}
-
-.top-0 {
-  top: 0px;
-}
-
-.top-\[-10\%\] {
-  top: -10%;
-}
-
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -1382,24 +1354,8 @@ html {
   display: grid;
 }
 
-.h-\[1000px\] {
-  height: 1000px;
-}
-
-.h-full {
-  height: 100%;
-}
-
 .min-h-screen {
   min-height: 100vh;
-}
-
-.w-\[1000px\] {
-  width: 1000px;
-}
-
-.w-full {
-  width: 100%;
 }
 
 .max-w-md {
@@ -1420,29 +1376,8 @@ html {
   white-space: nowrap;
 }
 
-.rounded-full {
-  border-radius: 9999px;
-}
-
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-
 .bg-opacity-20 {
   --tw-bg-opacity: 0.2;
-}
-
-.bg-\[linear-gradient\(to_right\2c \#4f4f4f2e_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#8080800a_1px\2c transparent_1px\)\] {
-  background-image: linear-gradient(to right,#4f4f4f2e 1px,transparent 1px),linear-gradient(to bottom,#8080800a 1px,transparent 1px);
-}
-
-.bg-\[radial-gradient\(circle_400px_at_50\%_300px\2c \#fbfbfb36\2c \#000\)\] {
-  background-image: radial-gradient(circle 400px at 50% 300px,#fbfbfb36,#000);
-}
-
-.bg-\[size\:14px_24px\] {
-  background-size: 14px 24px;
 }
 
 .py-8 {
