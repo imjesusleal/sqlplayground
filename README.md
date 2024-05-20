@@ -8,16 +8,12 @@ En sus proximas versiones estará desplegado y podrá ser accesible por cualquie
 
 # Instalación local
 
-Para poder recrearlo dentro de tu red local puedes simplemente servir los archivos de la carpeta static. Para servir los archivos puedes utilizar cualquier servidor http que prefieras, algo muy común es usar python para esto:
+Necesitas Golang para poder compilar el codigo hacia arquitectura WASM.
+
+La instalación de las dependencias las deje todas en el Makefile, para correlo simplemente ejecuta:
 
 ```
-python -m http.server {port}
+make all
 ```
 
-Donde port simplemente es el puerto que quieras utilizar para servir los archivos (generalmente 80, 8080 u 3000). Pero si ya tienes Go instalado puedes simplemente utilizar la regla del Makefile para servir los archivos:
-
-```
-make serve
-```
-
-Ya solo quedaría probarlo y decirme que les parece. 
+Con esto ya deberias tener todas las dependencias que necesitarias para poder contribuir en el proyecto. 
