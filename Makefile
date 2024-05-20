@@ -42,4 +42,7 @@ front-deps:
 		curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
 		apt-get install -y nodejs; \
 	)
-	npm install . 
+	npm install .
+
+tailwind:
+	npx tailwind -i ./static/input.css -o ./static/output.css --watch 
