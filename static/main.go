@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"log"
+	//"strconv"
 	"syscall/js"
 
 	"github.com/ncruces/go-sqlite3"
@@ -51,17 +52,22 @@ func main() {
 func dbConnect(db *sqlite3.Conn) js.Func {
 	f := js.FuncOf(func(this js.Value, args []js.Value) any {
 		st := args[0].String()
-		ret := checkQuery(db, st)
-		return ret
+		str, ret := checkQuery(db, st)
+		fmt.Println(str)
+		if str == "" {
+			return ret
+		}
+		return str
 	})
 
 	return f
 
 }
 
-func checkQuery(db *sqlite3.Conn, query string) string {
+func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 	var st string
-	var ret string
+	var sret string
+	var ret []interface{}
 	for _, v := range query {
 		if string(v) == " " {
 			break
@@ -70,15 +76,16 @@ func checkQuery(db *sqlite3.Conn, query string) string {
 	}
 	switch st {
 	case "create":
-		ret = createTable(db, query)
+		sret = createTable(db, query)
 	case "insert":
-		ret = insertQuery(db, query)
+		sret = insertQuery(db, query)
 	case "select":
 		ret = selectQuery(db, query)
+		return "", ret
 	default:
-		ret = execQuery(db, query)
+		sret = execQuery(db, query)
 	}
-	return ret
+	return sret, nil
 }
 
 func execQuery(db *sqlite3.Conn, query string) string {
@@ -105,15 +112,24 @@ func insertQuery(db *sqlite3.Conn, query string) string {
 	return "Insert sucessfully done!"
 }
 
-func selectQuery(db *sqlite3.Conn, query string) string {
-	var ret string
+func selectQuery(db *sqlite3.Conn, query string) []interface{} {
+	objects := make([]interface{}, 0)
 	stmt, _, err := db.Prepare(query)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	size := stmt.ColumnCount()
+	rows := make([]interface{}, size)
 	for stmt.Step() {
-		ret = ret + fmt.Sprintln(stmt.ColumnInt(0), stmt.ColumnText(1))
+		qmap := make(map[string]interface{}, 0)
+		stmt.Columns(rows)
+		for i := 0; i < size; i++ {
+			qmap[stmt.ColumnName(i)] = rows[i]
+		}
+		objects = append(objects, qmap)
 	}
+
 	if err := stmt.Err(); err != nil {
 		log.Fatal(err)
 	}
@@ -121,5 +137,5 @@ func selectQuery(db *sqlite3.Conn, query string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return ret
+	return objects
 }
