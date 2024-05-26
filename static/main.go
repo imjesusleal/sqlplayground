@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"log"
-	//"strconv"
 	"syscall/js"
 
 	"github.com/ncruces/go-sqlite3"
@@ -33,16 +32,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = db.Exec("create table whatever(id int, name varchar(25), age int)")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = db.Exec("insert into whatever(id, name, age) values(1, 'jesus', 29)")
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	js.Global().Set("dbConnect", dbConnect(db))
 
 	<-wait
@@ -53,7 +42,6 @@ func dbConnect(db *sqlite3.Conn) js.Func {
 	f := js.FuncOf(func(this js.Value, args []js.Value) any {
 		st := args[0].String()
 		str, ret := checkQuery(db, st)
-		fmt.Println(str)
 		if str == "" {
 			return ret
 		}
@@ -68,6 +56,7 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 	var st string
 	var sret string
 	var ret []interface{}
+	var err string
 	for _, v := range query {
 		if string(v) == " " {
 			break
@@ -80,7 +69,10 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 	case "insert":
 		sret = insertQuery(db, query)
 	case "select":
-		ret = selectQuery(db, query)
+		ret, err = selectQuery(db, query)
+		if err != "" {
+            return err,nil
+		}
 		return "", ret
 	default:
 		sret = execQuery(db, query)
@@ -91,7 +83,7 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 func execQuery(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-		log.Fatal(err)
+        return fmt.Sprint("Can't execute query because of err->", err)
 	}
 	return "query done sucessfully"
 }
@@ -99,7 +91,7 @@ func execQuery(db *sqlite3.Conn, query string) string {
 func createTable(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-		log.Fatal("Cant execute query, err -> ", err)
+        return fmt.Sprint("Can't execute query because of err->", err)
 	}
 	return "1 table succesfully created"
 }
@@ -107,16 +99,16 @@ func createTable(db *sqlite3.Conn, query string) string {
 func insertQuery(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-		log.Fatal("Cant execute query, err -> ", err)
+		return fmt.Sprint("Can't execute query because of err->", err)
 	}
 	return "Insert sucessfully done!"
 }
 
-func selectQuery(db *sqlite3.Conn, query string) []interface{} {
+func selectQuery(db *sqlite3.Conn, query string) ([]interface{},string) {
 	objects := make([]interface{}, 0)
 	stmt, _, err := db.Prepare(query)
 	if err != nil {
-		log.Fatal(err)
+		return nil, fmt.Sprint("Can't execute query because of err->", err)
 	}
 
 	size := stmt.ColumnCount()
@@ -137,5 +129,5 @@ func selectQuery(db *sqlite3.Conn, query string) []interface{} {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return objects
+	return objects,""
 }
