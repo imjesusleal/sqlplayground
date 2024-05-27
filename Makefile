@@ -34,6 +34,9 @@ opt-wasm:
 build-wasm : ./static/main.go
 	GOOS=js GOARCH=wasm go build -o ${WASM_TARGET} ./static/main.go
 
+test: 
+	GOOS=js GOARCH=wasm go test ./...
+
 serve : 
 	go run ./src
 

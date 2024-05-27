@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"syscall/js"
+	"wasi/static/cerrors"
 
 	"github.com/ncruces/go-sqlite3"
 	_ "github.com/ncruces/go-sqlite3/embed"
@@ -65,11 +66,11 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 	}
 	switch st {
 	case "create":
-		sret = createTable(db, query)
+		sret = CreateTable(db, query)
 	case "insert":
-		sret = insertQuery(db, query)
+		sret = InsertQuery(db, query)
 	case "select":
-		ret, err = selectQuery(db, query)
+		ret, err = SelectQuery(db, query)
 		if err != "" {
             return err,nil
 		}
@@ -83,32 +84,36 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 func execQuery(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-        return fmt.Sprint("Can't execute query because of err->", err)
+        e := cerrors.DefaultErr{Msg: "No se ha podido ejecutar la consulta, por favor chequea tu input."}
+        return fmt.Sprint(e.Error())
 	}
-	return "query done sucessfully"
+	return "Query realizada correctamente."
 }
 
-func createTable(db *sqlite3.Conn, query string) string {
+func CreateTable(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-        return fmt.Sprint("Can't execute query because of err->", err)
+        e := cerrors.CreateErr{Msg: "No se ha podido crear correctamente la tabla."}
+        return fmt.Sprint(e.Error())
 	}
-	return "1 table succesfully created"
+	return "Se ha creado la tabla correctamente."
 }
 
-func insertQuery(db *sqlite3.Conn, query string) string {
+func InsertQuery(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-		return fmt.Sprint("Can't execute query because of err->", err)
+        e := cerrors.InsertErr{Msg: "Estas intentando insertar valores incorrectamente."}
+		return fmt.Sprint(e.Error())
 	}
-	return "Insert sucessfully done!"
+	return "La inserción en la tabla se ha hecho correctamente."
 }
 
-func selectQuery(db *sqlite3.Conn, query string) ([]interface{},string) {
+func SelectQuery(db *sqlite3.Conn, query string) ([]interface{},string) {
 	objects := make([]interface{}, 0)
 	stmt, _, err := db.Prepare(query)
 	if err != nil {
-		return nil, fmt.Sprint("Can't execute query because of err->", err)
+        e := cerrors.SelectErr{Msg: "La consulta SELECT ha tendo algun problema, chequea tu input."}
+		return nil, fmt.Sprint(e.Error())
 	}
 
 	size := stmt.ColumnCount()
