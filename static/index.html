@@ -21,24 +21,19 @@
         </div>   
         </header>
     <main>
-        <div class="grid place-items-center">
+        <div class="grid place-items-center" id="seg1">
             <p>Hay una tabla creada ya en la base de datos llamada "user" que posee dos columnas -- 
             id INT, name VARCHAR(25).</p>
             <p>Inserta algun valor haciendo "insert into user(id, name) values(n, m)". Ejecuta cualquier otra consulta que quieras.</p>
         </div>
 
-        <div class="grid place-items-center py-8 gap-4" id="playground">
-            <textarea class="textarea textarea-success" placeholder="create your query" id="input" style="width: 650px; height:150px; padding-bottom: 4px;"></textarea>
-            <button class="btn" id="button">Click Me</button>
-            <div id="output">
-                <p id="outputText"></p>
-            </div>
-        </div>
+        <!--Playground rendering-->
     </main>
             
 
         <script src="./js/wasm_exec.js"></script>
         <script src="./js/go.js"></script>
+        <script src="./js/playground.js"></script>
         <script src="./js/query.js"></script>
 </body>
 </html>

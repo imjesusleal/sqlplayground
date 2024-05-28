@@ -82,6 +82,11 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 }
 
 func execQuery(db *sqlite3.Conn, query string) string {
+    var e cerrors.DefaultErr
+    if len(query) == 0 {
+        e.Msg = "Estas enviando una consulta vacia."
+        return fmt.Sprint(e.Error())
+    }
 	err := db.Exec(query)
 	if err != nil {
         e := cerrors.DefaultErr{Msg: "No se ha podido ejecutar la consulta, por favor chequea tu input."}
@@ -100,9 +105,14 @@ func CreateTable(db *sqlite3.Conn, query string) string {
 }
 
 func InsertQuery(db *sqlite3.Conn, query string) string {
+    var e cerrors.InsertErr
+    if len(query) == 0 {
+        e.Msg =  "Estas enviando una consulta vacia."
+        return fmt.Sprint(e.Error())
+    }
 	err := db.Exec(query)
 	if err != nil {
-        e := cerrors.InsertErr{Msg: "Estas intentando insertar valores incorrectamente."}
+        e = cerrors.InsertErr{Msg: "Estas intentando insertar valores incorrectamente."}
 		return fmt.Sprint(e.Error())
 	}
 	return "La inserción en la tabla se ha hecho correctamente."

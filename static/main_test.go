@@ -78,6 +78,7 @@ func TestInsertQuery(t *testing.T) {
     }{
         {"Debe insertar correctamente la fila", mockDb, "insert into user(id, name) values(2, 'clara')", "La inserción en la tabla se ha hecho correctamente."},
         {"Debe devolver un error", mockDb, "insert into users(id,name) values(2,'clara')", "Estas intentando insertar valores incorrectamente."},
+        {"Debe devolver error", mockDb, "", "Estas enviando una consulta vacia."},
     }
 
     for _, tt := range MockInserTest{
