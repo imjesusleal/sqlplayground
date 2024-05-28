@@ -1,34 +1,35 @@
 //go:build js && wasm
+
 package cerrors
 
 type InsertErr struct {
-    Msg string
+	Msg string
 }
 
 func (e *InsertErr) Error() string {
-    return e.Msg 
+	return e.Msg
 }
 
 type CreateErr struct {
-    Msg string
+	Msg string
 }
 
 func (e *CreateErr) Error() string {
-    return e.Msg
+	return e.Msg
 }
 
 type SelectErr struct {
-    Msg string
+	Msg string
 }
 
 func (e *SelectErr) Error() string {
-    return e.Msg
+	return e.Msg
 }
 
 type DefaultErr struct {
-    Msg string
+	Msg string
 }
 
-func (e *DefaultErr) Error() string{
-    return e.Msg
+func (e *DefaultErr) Error() string {
+	return e.Msg
 }

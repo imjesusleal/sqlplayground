@@ -8,8 +8,7 @@ function renderPlayground(before_node) {
     playground.id = "playground"
     playground.classList = "grid place-items-center py-8 gap-4"
 
-    textarea.classList = "textarea textarea-success"
-    textarea.style = "width: 650px; height:150px; padding-bottom: 4px;"
+    textarea.classList = "textarea textarea-success text-white textarea-md w-2/4"
     textarea.placeholder = "create your query"
     textarea.id = "input"
 

@@ -1,34 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="cyberpunk">
+<html lang="en" data-theme="coffee" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SqlPlayground</title>
     <link rel="stylesheet" href="./styles/output.css">
 </head>
 <body>
-
-
-     <header>
-        <div class="hero min-h-screen" style="background-image: url(./assets/sql-hero.jpg);">
-            <div class="hero-overlay bg-opacity-20"></div>
-            <div class="hero-content text-center text-neutral-content">
-                <div class="max-w-md">
-                    <h1 class="mb-5 text-5xl font-bold text-black">SQL PLAYGROUND</h1>
-                    <p class="mb-5 text-black">Una implementación del runtime de sqlite3 en WASM (WebAssembly) para que practiques tus conocimientos sobre bases de datos relacionales in browser.</p>
-                    <button class="btn btn-primary"><a href="#playground">Empieza ya!</a></button>
+    
+    <header>
+        <section>
+            <div class="navbar bg-base-100">
+                <div class="navbar-start">
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                        </div>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Tutoriales</a></li>
+                            <li><a href="#playground">Playground</a></li>
+                            <li><a>Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-center">
+                    <a class="btn btn-ghost text-xl">imjesusleal</a>
+                </div>
+                <div class="navbar-end">
                 </div>
             </div>
-        </div>   
-        </header>
-    <main>
+        </section>
+
+        <div class="grid w-full place-items-center bg-cover bg-center min-h-screen">
+            <div class="hero-content text-center text-neutral-content">
+                <div class="max-w-md">
+                    <h1 class="text-5xl font-bold text-white">SQL PLAYGROUND</h1>
+                    <p class="text-white">Una implementación del runtime de sqlite3 en WASM (WebAssembly) para que practiques tus conocimientos sobre bases de datos relacionales in browser.</p>
+                </div>
+            </div>
+        </div>
+    </header>
         <div class="grid place-items-center" id="seg1">
             <p>Hay una tabla creada ya en la base de datos llamada "user" que posee dos columnas -- 
             id INT, name VARCHAR(25).</p>
             <p>Inserta algun valor haciendo "insert into user(id, name) values(n, m)". Ejecuta cualquier otra consulta que quieras.</p>
         </div>
-
         <!--Playground rendering-->
-    </main>
             
 
         <script src="./js/wasm_exec.js"></script>

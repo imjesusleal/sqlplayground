@@ -33,6 +33,7 @@ function mapData(data) {
             let keys = e[0]
             let val = e[1]
             txt.innerText += "\n" + keys + "\t" + val
+            txt.scrollIntoView()
         })
     }
 }

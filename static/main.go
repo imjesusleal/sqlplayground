@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 	"syscall/js"
 	"wasi/static/cerrors"
 
@@ -42,6 +43,7 @@ func main() {
 func dbConnect(db *sqlite3.Conn) js.Func {
 	f := js.FuncOf(func(this js.Value, args []js.Value) any {
 		st := args[0].String()
+		st = strings.ToLower(st)
 		str, ret := checkQuery(db, st)
 		if str == "" {
 			return ret
@@ -72,7 +74,7 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 	case "select":
 		ret, err = SelectQuery(db, query)
 		if err != "" {
-            return err,nil
+			return err, nil
 		}
 		return "", ret
 	default:
@@ -82,15 +84,15 @@ func checkQuery(db *sqlite3.Conn, query string) (string, []interface{}) {
 }
 
 func execQuery(db *sqlite3.Conn, query string) string {
-    var e cerrors.DefaultErr
-    if len(query) == 0 {
-        e.Msg = "Estas enviando una consulta vacia."
-        return fmt.Sprint(e.Error())
-    }
+	var e cerrors.DefaultErr
+	if len(query) == 0 {
+		e.Msg = "Estas enviando una consulta vacia."
+		return fmt.Sprint(e.Error())
+	}
 	err := db.Exec(query)
 	if err != nil {
-        e := cerrors.DefaultErr{Msg: "No se ha podido ejecutar la consulta, por favor chequea tu input."}
-        return fmt.Sprint(e.Error())
+		e.Msg = "No se ha podido ejecutar la consulta, por favor chequea tu input."
+		return fmt.Sprint(e.Error())
 	}
 	return "Query realizada correctamente."
 }
@@ -98,31 +100,31 @@ func execQuery(db *sqlite3.Conn, query string) string {
 func CreateTable(db *sqlite3.Conn, query string) string {
 	err := db.Exec(query)
 	if err != nil {
-        e := cerrors.CreateErr{Msg: "No se ha podido crear correctamente la tabla."}
-        return fmt.Sprint(e.Error())
+		e := cerrors.CreateErr{Msg: "No se ha podido crear correctamente la tabla."}
+		return fmt.Sprint(e.Error())
 	}
 	return "Se ha creado la tabla correctamente."
 }
 
 func InsertQuery(db *sqlite3.Conn, query string) string {
-    var e cerrors.InsertErr
-    if len(query) == 0 {
-        e.Msg =  "Estas enviando una consulta vacia."
-        return fmt.Sprint(e.Error())
-    }
+	var e cerrors.InsertErr
+	if len(query) == 0 {
+		e.Msg = "Estas enviando una consulta vacia."
+		return fmt.Sprint(e.Error())
+	}
 	err := db.Exec(query)
 	if err != nil {
-        e = cerrors.InsertErr{Msg: "Estas intentando insertar valores incorrectamente."}
+		e = cerrors.InsertErr{Msg: "Estas intentando insertar valores incorrectamente."}
 		return fmt.Sprint(e.Error())
 	}
 	return "La inserción en la tabla se ha hecho correctamente."
 }
 
-func SelectQuery(db *sqlite3.Conn, query string) ([]interface{},string) {
+func SelectQuery(db *sqlite3.Conn, query string) ([]interface{}, string) {
 	objects := make([]interface{}, 0)
 	stmt, _, err := db.Prepare(query)
 	if err != nil {
-        e := cerrors.SelectErr{Msg: "La consulta SELECT ha tendo algun problema, chequea tu input."}
+		e := cerrors.SelectErr{Msg: "La consulta SELECT ha tendo algun problema, chequea tu input."}
 		return nil, fmt.Sprint(e.Error())
 	}
 
@@ -144,5 +146,5 @@ func SelectQuery(db *sqlite3.Conn, query string) ([]interface{},string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return objects,""
+	return objects, ""
 }

@@ -7,7 +7,10 @@ WASM_OPT = binaryen-version_117-x86_64-linux.tar.gz
 #Rules
 
 .PHONY: all
-all: front-deps format-deps build-wasm opt-wasm tailwind serve
+all: front-deps format-deps build-wasm opt-wasm tailwind-dev  
+
+.PHONY: build
+build: front-deps format-deps test build-wasm opt-wasm tailwind
 
 .PHONY: lint-deps
 lint-deps:
@@ -48,4 +51,10 @@ front-deps:
 	npm install .
 
 tailwind:
-	npx tailwind -i ./static/styles/input.css -o ./static/styles/output.css 
+	npx tailwind -i ./static/styles/input.css -o ./static/styles/output.css
+
+tailwind-dev:
+	npx tailwind -i ./static/styles/input.css -o ./static/styles/output.css --watch
+
+test:
+	go test ./...
