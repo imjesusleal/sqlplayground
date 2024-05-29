@@ -55,6 +55,3 @@ tailwind:
 
 tailwind-dev:
 	npx tailwind -i ./static/styles/input.css -o ./static/styles/output.css --watch
-
-test:
-	go test ./...

@@ -1,7 +1,7 @@
-inp = document.getElementById('input')
-o = document.getElementById("output")
-x = document.getElementById('button')
-txt = document.getElementById("outputText")
+var inp = document.getElementById('input')
+var o = document.getElementById("output")
+var x = document.getElementById('button')
+var txt = document.getElementById("outputText")
 
 function getQuery() {
     const data =  dbConnect(inp.value);
@@ -18,7 +18,7 @@ function putOutput(data) {
             txt.innerText += data
             break;
             case "object":
-            mapData(data)
+            generateTable(data)
             break;
             default:
             txt.innerText += data
@@ -27,15 +27,30 @@ function putOutput(data) {
     }     
 } 
 
-function mapData(data) {
-    for (i=0;i<data.length; i++) {
-        Object.entries(data[i]).map(e => {
-            let keys = e[0]
-            let val = e[1]
-            txt.innerText += "\n" + keys + "\t" + val
-            txt.scrollIntoView()
-        })
-    }
+function generateTable(obj) {
+    const keys = Object.keys(obj);
+    if (keys.length === 0) return '';
+
+    const columns = Object.keys(obj[keys[0]]);
+
+    let table = '<table class="table table-md"><thead><tr>';
+    columns.forEach(columna => {
+        table += `<th class="text-base">${columna}</th>`;
+    });
+    table += '</tr></thead><tbody>';
+
+    keys.forEach(key => {
+        table += '<tr>';
+        columns.forEach(column => {
+            table += `<td class="text-base">${obj[key][column]}</td>`;
+        });
+        table += '</tr>';
+    });
+
+    table += '</tbody></table>';
+    console.log(table)
+    txt.innerHTML = table
+    txt.scrollIntoView()
 }
 
 x.addEventListener('click', getQuery)
