@@ -1763,8 +1763,8 @@ html {
   height: 1.25rem;
 }
 
-.min-h-screen {
-  min-height: 100vh;
+.min-h-\[50vh\] {
+  min-height: 50vh;
 }
 
 .w-2\/4 {

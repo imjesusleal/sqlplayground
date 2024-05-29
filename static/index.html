@@ -9,6 +9,7 @@
 <body>
     
     <header>
+        <!-- Nav Bar -->
         <section>
             <div class="navbar bg-base-100">
                 <div class="navbar-start">
@@ -24,14 +25,16 @@
                     </div>
                 </div>
                 <div class="navbar-center">
-                    <a class="btn btn-ghost text-xl">imjesusleal</a>
+                    <a class="btn btn-ghost text-xl" href="https://github.com/imjesusleal">imjesusleal</a>
                 </div>
                 <div class="navbar-end">
                 </div>
             </div>
         </section>
+    
 
-        <div class="grid w-full place-items-center bg-cover bg-center min-h-screen">
+        <!-- Hero -->
+        <div class="grid w-full place-items-center bg-cover bg-center min-h-[50vh]">
             <div class="hero-content text-center text-neutral-content">
                 <div class="max-w-md">
                     <h1 class="text-5xl font-bold text-white">SQL PLAYGROUND</h1>
@@ -40,17 +43,18 @@
             </div>
         </div>
     </header>
+
+        <!--Playground rendering-->
         <div class="grid place-items-center" id="seg1">
             <p class="text-center">Hay una tabla creada ya en la base de datos llamada "user" que posee dos columnas -- 
             id INT, name VARCHAR(25).</p>
             <p class="text-center">Inserta algun valor haciendo "insert into user(id, name) values(n, m)". Ejecuta cualquier otra consulta que quieras.</p>
         </div>
-        <!--Playground rendering-->
             
 
+        <script src="./js/playground.js"></script>
         <script src="./js/wasm_exec.js"></script>
         <script src="./js/go.js"></script>
-        <script src="./js/playground.js"></script>
         <script src="./js/query.js"></script>
 </body>
 </html>

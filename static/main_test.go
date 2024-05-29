@@ -32,14 +32,14 @@ func TestSelectQuery(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	type MockTests struct {
+	type MockTests[T any] struct {
 		name  string
 		DB    *sqlite3.Conn
 		query string
-		want  []interface{}
+		want  T
 	}
 
-	tests := []MockTests{
+	tests := []MockTests[[]interface{}]{
 		{"Debe devolver todo los campos que encuentre", mockDb, "select * from user", []interface{}{
 			map[string]interface{}{"id": int64(1), "name": "jesus", "age": int64(29)}}},
 		{"Debe devolver solo los campos: id y name", mockDb, "select id,name from user", []interface{}{
@@ -52,6 +52,11 @@ func TestSelectQuery(t *testing.T) {
 			map[string]interface{}{"id": int64(1), "name": "jesus", "age": int64(29)}}},
 	}
 
+	testsErr := []MockTests[string]{
+		{"Debe devolver una cadena indicando el error de seleccion de tabla", mockDb, "select * from users order by id", "No existe la tabla users"},
+		{"Debe devolver una cadena indicando el error de sintaxis en la seleccion de columna", mockDb, "select (ida,name) from user", "Tienes un error de sintaxis cerca de: ida,name) from user"},
+	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ans, _ := SelectQuery(tt.DB, tt.query)
@@ -60,6 +65,16 @@ func TestSelectQuery(t *testing.T) {
 				t.Errorf("got %s, want %s", ans, tt.want)
 			}
 
+		})
+	}
+
+	for _, ff := range testsErr {
+		t.Run(ff.name, func(t *testing.T) {
+			_, ans := SelectQuery(ff.DB, ff.query)
+
+			if ans != ff.want {
+				t.Errorf("got %s, want %s", ans, ff.want)
+			}
 		})
 	}
 }
@@ -77,8 +92,8 @@ func TestInsertQuery(t *testing.T) {
 		want  string
 	}{
 		{"Debe insertar correctamente la fila", mockDb, "insert into user(id, name) values(2, 'clara')", "La inserción en la tabla se ha hecho correctamente."},
-		{"Debe devolver un error", mockDb, "insert into users(id,name) values(2,'clara')", "Estas intentando insertar valores incorrectamente."},
-		{"Debe devolver error", mockDb, "", "Estas enviando una consulta vacia."},
+		{"Debe devolver un error", mockDb, "insert into users(id,name) values(2,'clara')", "No existe la tabla users"},
+		{"Debe devolver error", mockDb, "", "Estas enviando una consulta vacia"},
 	}
 
 	for _, tt := range MockInserTest {

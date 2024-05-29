@@ -2,34 +2,50 @@
 
 package cerrors
 
-type InsertErr struct {
-	Msg string
-}
+import (
+	"fmt"
+	"strings"
 
-func (e *InsertErr) Error() string {
-	return e.Msg
-}
-
-type CreateErr struct {
-	Msg string
-}
-
-func (e *CreateErr) Error() string {
-	return e.Msg
-}
-
-type SelectErr struct {
-	Msg string
-}
-
-func (e *SelectErr) Error() string {
-	return e.Msg
-}
+	"github.com/ncruces/go-sqlite3"
+)
 
 type DefaultErr struct {
-	Msg string
+	msg string
 }
 
 func (e *DefaultErr) Error() string {
-	return e.Msg
+	return fmt.Sprintf("Tienes un error de sintaxis cerca de: %s", e.msg)
+}
+
+type LogicErr struct {
+	msg string
+}
+
+func (e *LogicErr) Error() string {
+	s := strings.Split(e.msg, " ")
+	s = s[4:]
+	switch s[0] {
+	case "table":
+		e.msg = fmt.Sprintf("Tabla %s no tiene una columna llamada %s", s[1], s[len(s)-1])
+	case "no":
+		e.msg = fmt.Sprintf("No existe la tabla %s", s[3])
+	case "incomplete":
+		e.msg = fmt.Sprintf("Estas intentando enviar una query incompleta.")
+	default:
+		e.msg = fmt.Sprintf("%s no tiene %s sobre %s", s[4], s[5], s[8])
+	}
+	return e.msg
+
+}
+
+func Wrap(err error) string {
+	if errs, ok := err.(*sqlite3.Error); ok {
+		if len(errs.SQL()) == 0 {
+			s := LogicErr{msg: errs.Error()}
+			return s.Error()
+		}
+		e := &DefaultErr{msg: errs.SQL()}
+		return e.Error()
+	}
+	return ""
 }

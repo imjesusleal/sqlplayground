@@ -48,11 +48,8 @@ function generateTable(obj) {
     });
 
     table += '</tbody></table>';
-    console.log(table)
     txt.innerHTML = table
     txt.scrollIntoView()
 }
 
 x.addEventListener('click', getQuery)
-
-
