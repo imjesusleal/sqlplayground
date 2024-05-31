@@ -8,21 +8,22 @@ import (
 	"strings"
 	"syscall/js"
 	"wasi/static/cerrors"
+	"wasi/static/dbConn"
 
 	"github.com/ncruces/go-sqlite3"
 	_ "github.com/ncruces/go-sqlite3/embed"
 )
 
-const memory = ":memory:"
-
 func main() {
 	wait := make(chan struct{}, 0)
+    
+    conn := dbConn.CreateDb()
+    db, err := conn.Open()
+    if err != nil {
+        log.Fatal(err)
+    }
 
-	db, err := sqlite3.Open(memory)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+    defer db.Close()
 
 	err = db.Exec("create table user(id int, name varchar(25))")
 	if err != nil {

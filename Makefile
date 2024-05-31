@@ -23,7 +23,7 @@ format-deps:
 	@command -v gofmt >/dev/null 2>&1 || ( \
 		go install golang.org/x/tools/cmd/goimports@latest; \
 	) 
-	gofmt -s -w .
+	go fmt ./...
 
 .PHONY: opt-wasm
 opt-wasm:
