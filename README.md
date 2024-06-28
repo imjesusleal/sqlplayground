@@ -16,4 +16,8 @@ La instalación de las dependencias las deje todas en el Makefile, para correlo 
 make all
 ```
 
-Con esto ya deberias tener todas las dependencias que necesitarias para poder contribuir en el proyecto. 
+Con esto ya deberias tener todas las dependencias que necesitarias para poder contribuir en el proyecto.
+
+# Agradecimientos
+
+Todo el CSS ha sido generado utilizando Tailwind y, en particular, los componentes de la libreria de DaisyUI, pueden chequear su web: https://daisyui.com/
